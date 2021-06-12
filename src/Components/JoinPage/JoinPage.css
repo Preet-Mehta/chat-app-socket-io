@@ -1,0 +1,58 @@
+.join-room-container {
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+}
+
+.join-room-container input {
+  margin: 1rem 0;
+  width: 70%;
+  padding: 0.8rem 0.5rem;
+  border: none;
+  border-bottom: 1px solid white;
+  font-size: 1rem;
+  color: white;
+  background-color: black;
+}
+
+.join-room-container input:focus,
+.join-room-container input:active {
+  outline: none;
+  background-color: black;
+}
+
+.join-room-input {
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+  margin: 2rem 5rem;
+}
+
+.join-room-input > input {
+  width: 100%;
+  margin-top: 0;
+}
+
+.join-room-container button {
+  width: 140px;
+  height: 50px;
+  color: black;
+  outline: 1px solid;
+  font-size: 1rem;
+  text-shadow: none;
+  transition: all 1250ms cubic-bezier(0.19, 1, 0.22, 1);
+  font-weight: 700;
+  margin-left: 2rem;
+  cursor: pointer;
+  letter-spacing: 1px;
+  padding: 0.5rem;
+}
+
+.join-room-container button:hover {
+  background-color: black;
+  color: white;
+  border: 1px solid;
+}
