@@ -50,7 +50,7 @@ const JoinPage = (props) => {
       <button
         disabled={!(room && name)}
         className="join-room-button"
-        onClick={() => history.push(`/chat/?name=${name}&room=${room}`)}
+        onClick={() => history.push(`/chat?name=${name}&room=${room}`)}
       >
         Join
       </button>

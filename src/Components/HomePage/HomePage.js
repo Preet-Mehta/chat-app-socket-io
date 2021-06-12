@@ -113,7 +113,9 @@ const HomePage = (props) => {
             transition={{ duration: 1 }}
             className="home-right-2"
           >
-            <img
+            <motion.img
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
               onClick={() => setFrame(false)}
               src="https://png.pngtree.com/png-vector/20190417/ourlarge/pngtree-vector-back-icon-png-image_947168.jpg"
               alt=""
