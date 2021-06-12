@@ -9,8 +9,8 @@ const io = require("socket.io")(server, {
   },
 });
 
-const port = 5000 || process.env.PORT;
 let msgs = [];
+const port = 5000 || process.env.PORT;
 
 io.on("connection", (socket) => {
   msgs = [];
@@ -19,11 +19,15 @@ io.on("connection", (socket) => {
     if (err) return callback(err);
     if (user) {
       msgs.push({
-        user: "",
+        user: "admin",
         msg: `${user.name} has entered the room ${user.room}.`,
       });
-      socket.emit("message", {
-        msgs,
+      console.log(msgs);
+      io.to(user.room).emit("message", {
+        msgs: msgs.filter((msg) => msg.user == "admin"),
+      });
+      io.to(user.room).emit("message", {
+        msgs: msgs.filter((msg) => user.name === msg.user),
       });
       socket.join(user.room);
       io.to(user.room).emit("users", {
@@ -48,9 +52,12 @@ io.on("connection", (socket) => {
     const user = deleteUser(socket.id);
     if (user) {
       msgs.push({
-        user: "",
+        user: "admin",
         msg: `${user.name} has left the room.`,
       });
+      // msgs = msgs.filter(
+      //   (msg) => msg.user !== user.name && msg.user !== "admin"
+      // );
       io.to(user.room).emit("message", {
         msgs,
       });
