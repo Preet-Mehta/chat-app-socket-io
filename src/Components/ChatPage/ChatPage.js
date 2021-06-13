@@ -14,7 +14,7 @@ const ChatPage = (props) => {
   const [messages, setMessages] = useState([]);
   const [users, setUsers] = useState([]);
   const [user, setUser] = useState("");
-  const [room, setRoom] = useState("");
+  const [roomName, setRoomName] = useState("");
   const [showemo, setShowemo] = useState(false);
 
   const socket = useRef(null);
@@ -36,7 +36,7 @@ const ChatPage = (props) => {
 
   useEffect(() => {
     const { name, room } = queryString.parse(props.location.search);
-    setRoom(room.trim().toLowerCase());
+    setRoomName(room.trim().toLowerCase());
     setUser(name.trim().toLowerCase().split(" ").join("_"));
     socket.current = io(END_POINT);
     socket.current.emit(
@@ -69,7 +69,7 @@ const ChatPage = (props) => {
       );
     });
     scrollToBottom();
-  }, [messages?.length]);
+  }, [props.location.search, messages.length]);
 
   useEffect(() => {
     socket.current.on("users", ({ users }) => {
@@ -95,7 +95,7 @@ const ChatPage = (props) => {
         />
         <Particle />
         <div className="chat-room-left-chats">
-          <div className="room-name">{room}</div>
+          <div className="room-name">{roomName}</div>
           <img src="./bg.svg" alt="" />
           <ul>
             {messages?.map((message, i) => {
