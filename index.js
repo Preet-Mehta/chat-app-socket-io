@@ -18,6 +18,10 @@ const io = require("socket.io")(server, {
 
 const port = 5000 || process.env.PORT;
 
+app.get("/", (req, res) => {
+  res.send("Server up and running.");
+});
+
 io.on("connection", (socket) => {
   socket.on("join", ({ name, room }, callback) => {
     const { err, new_user, users } = addUser({ id: socket.id, name, room });
