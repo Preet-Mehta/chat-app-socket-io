@@ -11,7 +11,7 @@ const Particle = () => {
             value: 400,
             density: {
               enable: true,
-              value_area: 2000.4120608655228,
+              value_area: 2200.4120608655228,
             },
           },
           color: {
@@ -57,7 +57,7 @@ const Particle = () => {
             distance: 100,
             color: "#fefefe",
             opacity: 1,
-            width: 0.5,
+            width: 1,
           },
           move: {
             enable: true,

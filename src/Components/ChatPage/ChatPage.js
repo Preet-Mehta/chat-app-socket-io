@@ -15,9 +15,7 @@ const ChatPage = (props) => {
   const [messages, setMessages] = useState([]);
   const [users, setUsers] = useState([]);
   const [user, setUser] = useState("");
-
   const [room, setRoom] = useState("");
-
   const [showemo, setShowemo] = useState(false);
 
   const socket = useRef(null);
@@ -39,29 +37,48 @@ const ChatPage = (props) => {
 
   useEffect(() => {
     const { name, room } = queryString.parse(props.location.search);
-    setRoom(room);
+    setRoom(room.trim().toLowerCase());
     setUser(name.trim().toLowerCase().split(" ").join("_"));
     socket.current = io(END_POINT);
     socket.current.emit(
       "join",
       { name, room: room.trim().toLowerCase() },
       (error) => {
-        if (error) alert(error);
+        if (error) {
+          alert(error);
+          history.push("/");
+        }
       }
     );
 
     return () => {
       socket.current.disconnect();
-      socket.current.off();
     };
   }, [props.location.search, END_POINT]);
 
   useEffect(() => {
-    socket.current.on("message", (msgs) => {
-      setMessages(msgs.msgs);
+    const { name, room } = queryString.parse(props.location.search);
+    socket.current.on("message", (users) => {
+      // console.log(users, room, name);
+      // console.log(
+      //   users.filter(
+      //     (f_user) =>
+      //       (f_user.name === name && f_user.room === room) ||
+      //       (f_user.name === "admin" && f_user.room === room)
+      //   )[0]?.user_msgs
+      // );
+      setMessages(
+        users.filter(
+          (f_user) =>
+            (f_user.name === name.trim().toLowerCase().split(" ").join("_") &&
+              f_user.room === room.trim().toLowerCase()) ||
+            (f_user.name === "admin" &&
+              f_user.room === room.trim().toLowerCase())
+        )[0]?.user_msgs
+      );
     });
     scrollToBottom();
-  }, [messages.length]);
+  }, [messages?.length]);
 
   useEffect(() => {
     socket.current.on("users", ({ users }) => {
@@ -75,7 +92,6 @@ const ChatPage = (props) => {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ delay: 0.1 }}
       className="chat-room-container"
     >
       <div className="chat-room-left">
@@ -88,11 +104,11 @@ const ChatPage = (props) => {
         />
         <Particle />
         <div className="chat-room-left-chats">
-          <img src="./bg.svg" alt="" />
           <div className="room-name">{room}</div>
+          <img src="./bg.svg" alt="" />
           <ul>
-            {messages.map((message, i) => {
-              if (message.user === "admin") {
+            {messages?.map((message, i) => {
+              if (message.name === "admin") {
                 return (
                   <li key={i} style={{ justifyContent: "center" }}>
                     <div>
@@ -114,7 +130,7 @@ const ChatPage = (props) => {
                 return (
                   <li key={i} style={{ justifyContent: "flex-start" }}>
                     <div>
-                      <span>{message.user}</span>
+                      <span style={{ fontSize: ".9rem" }}>{message.user}</span>
                       <p className="non-user">{message.msg}</p>
                     </div>
                   </li>
@@ -123,7 +139,9 @@ const ChatPage = (props) => {
                 return (
                   <li key={i} style={{ justifyContent: "flex-end" }}>
                     <div>
-                      <span style={{ textAlign: "right" }}>You</span>
+                      <span style={{ textAlign: "right", fontSize: ".9rem" }}>
+                        You
+                      </span>
                       <p className="user">{message.msg}</p>
                     </div>
                   </li>
@@ -172,9 +190,14 @@ const ChatPage = (props) => {
       <div className="chat-room-right">
         <p>Users currently online</p>
         <ul>
-          {users.map((user, i) => (
+          {users.map((c_user, i) => (
             <li key={i}>
-              <span className="green-circle"></span> {user.name}
+              <span className="green-circle"></span>
+              {c_user.name === user ? (
+                <strong>{c_user.name}</strong>
+              ) : (
+                <>{c_user.name}</>
+              )}
             </li>
           ))}
         </ul>
