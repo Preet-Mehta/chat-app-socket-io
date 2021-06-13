@@ -1,71 +1,61 @@
 const express = require("express");
-const { addUser, getUser, deleteUser, getAllUsers } = require("./users_api");
+const {
+  debugUsers,
+  addUser,
+  getUser,
+  deleteUser,
+  getAllUsers,
+} = require("./users_api");
 const app = express();
 const server = require("http").createServer(app);
+require("dotenv").config();
 const io = require("socket.io")(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: process.env.ORIGIN,
     methods: ["GET", "POST"],
   },
 });
 
-let msgs = [];
 const port = 5000 || process.env.PORT;
 
 io.on("connection", (socket) => {
-  msgs = [];
   socket.on("join", ({ name, room }, callback) => {
-    const { err, user } = addUser({ id: socket.id, name, room });
-    if (err) return callback(err);
-    if (user) {
-      msgs.push({
-        user: "admin",
-        msg: `${user.name} has entered the room ${user.room}.`,
-      });
-      console.log(msgs);
-      io.to(user.room).emit("message", {
-        msgs: msgs.filter((msg) => msg.user == "admin"),
-      });
-      io.to(user.room).emit("message", {
-        msgs: msgs.filter((msg) => user.name === msg.user),
-      });
-      socket.join(user.room);
-      io.to(user.room).emit("users", {
-        room: user.room,
-        users: getAllUsers(user.room),
-      });
+    const { err, new_user, users } = addUser({ id: socket.id, name, room });
+    if (err) callback(err);
 
-      callback();
+    // console.log(users);
+    if (users?.length > 0) {
+      socket.join(new_user.room);
+      io.to(new_user.room).emit("message", users);
     }
+
+    io.to(users && users[users.length - 1].room).emit("users", {
+      room: users && users[users.length - 1].room,
+      users: getAllUsers(users && users[users.length - 1].room),
+    });
   });
 
   socket.on("client_message", (msg) => {
-    const user = getUser(socket.id);
-    if (user) {
-      msgs.push({ user: user.name, msg });
-      console.log(msgs);
-      io.to(user.room).emit("message", { msgs });
+    const c_user = getUser(socket.id);
+    const all_users = debugUsers();
+    if (c_user) {
+      all_users.map((user) => {
+        if (user.room === c_user.room)
+          user.user_msgs.push({ user: c_user.name, room: c_user.room, msg });
+      });
+      io.to(c_user.room).emit("message", all_users);
     }
   });
 
   socket.on("disconnect", () => {
-    const user = deleteUser(socket.id);
-    if (user) {
-      msgs.push({
-        user: "admin",
-        msg: `${user.name} has left the room.`,
+    const { err, deleted_user, current_users } = deleteUser(socket.id);
+    if (current_users?.length > 0) {
+      io.to(deleted_user.room).emit("message", current_users);
+      io.to(deleted_user.room).emit("users", {
+        room: deleted_user.room,
+        users: getAllUsers(deleted_user.room),
       });
-      // msgs = msgs.filter(
-      //   (msg) => msg.user !== user.name && msg.user !== "admin"
-      // );
-      io.to(user.room).emit("message", {
-        msgs,
-      });
-      io.to(user.room).emit("users", {
-        room: user.room,
-        users: getAllUsers(user.room),
-      });
-    }
+    } else return { err };
   });
 });
 
