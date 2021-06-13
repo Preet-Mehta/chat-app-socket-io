@@ -8,7 +8,7 @@ import "./ChatPage.css";
 import { motion } from "framer-motion";
 import { useHistory } from "react-router-dom";
 
-const END_POINT = "http://localhost:5000";
+const END_POINT = "https://mini-project-socket-io.herokuapp.com/";
 
 const ChatPage = (props) => {
   const [message, setMessage] = useState("");
