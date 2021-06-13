@@ -94,13 +94,13 @@ const HomePage = (props) => {
             className="home-right-1"
           >
             <h2>Techologies Used:</h2>
-            <a href="https://socket.io/" target="_blank">
+            <a href="https://socket.io/" target="_blank" rel="noreferrer">
               Socket.io
             </a>
-            <a href="https://reactjs.org/" target="_blank">
+            <a href="https://reactjs.org/" target="_blank" rel="noreferrer">
               React JS
             </a>
-            <a href="https://expressjs.com/" target="_blank">
+            <a href="https://expressjs.com/" target="_blank" rel="noreferrer">
               Express JS
             </a>
           </motion.div>

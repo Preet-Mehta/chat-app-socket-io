@@ -8,9 +8,8 @@ import "./ChatPage.css";
 import { motion } from "framer-motion";
 import { useHistory } from "react-router-dom";
 
-const END_POINT = "https://mini-project-socket-io.herokuapp.com/";
-
 const ChatPage = (props) => {
+  const END_POINT = "https://mini-project-socket-io.herokuapp.com/";
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [users, setUsers] = useState([]);
