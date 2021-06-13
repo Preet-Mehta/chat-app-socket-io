@@ -53,19 +53,11 @@ const ChatPage = (props) => {
     return () => {
       socket.current.disconnect();
     };
-  }, [props.location.search, END_POINT]);
+  }, [props.location.search, END_POINT, history]);
 
   useEffect(() => {
     const { name, room } = queryString.parse(props.location.search);
     socket.current.on("message", (users) => {
-      // console.log(users, room, name);
-      // console.log(
-      //   users.filter(
-      //     (f_user) =>
-      //       (f_user.name === name && f_user.room === room) ||
-      //       (f_user.name === "admin" && f_user.room === room)
-      //   )[0]?.user_msgs
-      // );
       setMessages(
         users.filter(
           (f_user) =>
