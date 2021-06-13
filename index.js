@@ -16,7 +16,7 @@ const io = require("socket.io")(server, {
   },
 });
 
-const port = 5000 || process.env.PORT;
+const port = process.env.PORT || 5000;
 
 app.get("/", (req, res) => {
   res.send("Server up and running.");
