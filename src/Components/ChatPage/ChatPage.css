@@ -21,6 +21,7 @@
   scrollbar-width: none;
   position: relative;
 }
+
 .chat-room-left > img {
   width: 30px;
   height: 30px;
@@ -143,7 +144,7 @@
   padding-right: 10px;
 }
 .chat-room-left-input > form > img {
-  margin-left: 0.5rem;
+  /* margin-left: 0.5rem; */
   cursor: pointer;
 }
 
@@ -340,9 +341,11 @@ input {
   .chat-room-left-input button {
     font-size: 0.8rem;
   }
+
   .chat-room-left-input > form > img {
     width: 20px;
   }
+
   .emoji-mart {
     width: 260px !important;
     margin-left: 5px;
