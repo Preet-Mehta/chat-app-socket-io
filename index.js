@@ -1,4 +1,5 @@
 const express = require("express");
+require("dotenv").config();
 const {
   debugUsers,
   addUser,
@@ -8,7 +9,6 @@ const {
 } = require("./users_api");
 const app = express();
 const server = require("http").createServer(app);
-require("dotenv").config();
 const io = require("socket.io")(server, {
   cors: {
     origin: process.env.ORIGIN,
@@ -27,7 +27,6 @@ io.on("connection", (socket) => {
     const { err, new_user, users } = addUser({ id: socket.id, name, room });
     if (err) callback(err);
 
-    // console.log(users);
     if (users?.length > 0) {
       socket.join(new_user.room);
       io.to(new_user.room).emit("message", users);
