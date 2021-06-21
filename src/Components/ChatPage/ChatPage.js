@@ -92,13 +92,16 @@ const ChatPage = (props) => {
           whileTap={{ scale: 0.9 }}
           onClick={() => history.push("/")}
           src="https://png.pngtree.com/png-vector/20190417/ourlarge/pngtree-vector-back-icon-png-image_947168.jpg"
-          alt="image"
+          alt=""
         />
         <Particle />
         <div className="chat-room-left-chats">
           <div className="room-name">{roomName}</div>
           <div className="user-open" onClick={() => setOpen(true)}>
-            <img src="https://img.icons8.com/android/24/26e07f/user.png" />
+            <img
+              src="https://img.icons8.com/android/24/26e07f/user.png"
+              alt=""
+            />
           </div>
 
           <img src="./bg.svg" alt="" />
@@ -168,6 +171,7 @@ const ChatPage = (props) => {
               whileTap={{ scale: 0.9 }}
               onClick={() => setShowemo(!showemo)}
               src="https://img.icons8.com/color/32/000000/lol--v4.png"
+              alt=""
             />
             <input
               placeholder="Enter a message . . ."
@@ -188,7 +192,10 @@ const ChatPage = (props) => {
       </div>
       <div className={open ? `chat-room-right ` : `chat-room-right show`}>
         <div className="user-close" onClick={() => setOpen(false)}>
-          <img src="https://img.icons8.com/fluent-systems-regular/24/FFFFFF/x.png" />
+          <img
+            src="https://img.icons8.com/fluent-systems-regular/24/FFFFFF/x.png"
+            alt=""
+          />
         </div>
         <p>Users currently online</p>
         <ul>
