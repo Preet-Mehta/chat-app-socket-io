@@ -168,6 +168,7 @@
 }
 
 .chat-room-right ul {
+  height: 50vh;
   list-style: none;
   overflow: auto;
   width: 80%;
