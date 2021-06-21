@@ -56,3 +56,31 @@
   color: white;
   border: 1px solid;
 }
+
+@media (max-width: 560px) {
+  .join-room-container {
+    margin: auto;
+    height: 100vh;
+  }
+
+  .join-room-input {
+    width: 90%;
+    overflow: hidden;
+    margin: 2rem 0;
+  }
+
+  .join-room-container button {
+    margin: 0;
+  }
+}
+
+@media (max-width: 440px) {
+  .join-room-container > h1 {
+    font-size: 1.2rem;
+  }
+  .join-room-container button {
+    height: fit-content;
+    font-size: 0.8rem;
+    width: 100px;
+  }
+}

@@ -28,10 +28,11 @@ const JoinPage = (props) => {
           type="text"
           name="name"
           value={name}
-          placeholder="Eg. Bhai"
+          placeholder="Enter 5-9 characters."
           required
           onChange={handleChange}
           autoComplete="off"
+          maxLength="9"
         />
       </div>
       <div className="join-room-input">
@@ -42,15 +43,31 @@ const JoinPage = (props) => {
           type="text"
           name="room"
           value={room}
-          placeholder="Eg. Apna Adda"
+          placeholder="Enter 6-12 characters."
           onChange={handleChange}
           autoComplete="off"
+          maxLength="12"
         />
       </div>
       <button
         disabled={!(room && name)}
         className="join-room-button"
-        onClick={() => history.push(`/chat?name=${name}&room=${room}`)}
+        onClick={() => {
+          if (
+            name.length >= 5 &&
+            name.length <= 9 &&
+            room.length >= 6 &&
+            room.length <= 12
+          )
+            history.push(`/chat?name=${name}&room=${room}`);
+          else {
+            alert("Please follow the instructions mentioned in placeholder.");
+            setData({
+              name: "",
+              room: "",
+            });
+          }
+        }}
       >
         Join
       </button>

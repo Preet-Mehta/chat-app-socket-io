@@ -16,6 +16,7 @@ const ChatPage = (props) => {
   const [user, setUser] = useState("");
   const [roomName, setRoomName] = useState("");
   const [showemo, setShowemo] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const socket = useRef(null);
   const messagesEndRef = useRef(null);
@@ -96,6 +97,10 @@ const ChatPage = (props) => {
         <Particle />
         <div className="chat-room-left-chats">
           <div className="room-name">{roomName}</div>
+          <div className="user-open" onClick={() => setOpen(true)}>
+            <img src="https://img.icons8.com/android/24/26e07f/user.png" />
+          </div>
+
           <img src="./bg.svg" alt="" />
           <ul>
             {messages?.map((message, i) => {
@@ -128,7 +133,10 @@ const ChatPage = (props) => {
                 );
               } else {
                 return (
-                  <li key={i} style={{ justifyContent: "flex-end" }}>
+                  <li
+                    key={i}
+                    style={{ justifyContent: "flex-end", marginLeft: "0" }}
+                  >
                     <div>
                       <span style={{ textAlign: "right", fontSize: ".9rem" }}>
                         You
@@ -178,7 +186,10 @@ const ChatPage = (props) => {
           </form>
         </div>
       </div>
-      <div className="chat-room-right">
+      <div className={open ? `chat-room-right ` : `chat-room-right show`}>
+        <div className="user-close" onClick={() => setOpen(false)}>
+          <img src="https://img.icons8.com/fluent-systems-regular/24/FFFFFF/x.png" />
+        </div>
         <p>Users currently online</p>
         <ul>
           {users.map((c_user, i) => (
