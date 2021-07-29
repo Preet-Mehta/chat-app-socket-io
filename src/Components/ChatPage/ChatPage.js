@@ -10,6 +10,7 @@ import { useHistory } from "react-router-dom";
 
 const ChatPage = (props) => {
   const END_POINT = "https://mini-project-socket-io.herokuapp.com/";
+  // const END_POINT = "http://localhost:5000/";
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [users, setUsers] = useState([]);
